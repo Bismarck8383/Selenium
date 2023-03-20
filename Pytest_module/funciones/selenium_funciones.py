@@ -14,37 +14,76 @@ class FuncionesGlobales:
 
     # función que inicia la navegación le pasamos la url
     def navigate_to(self, url):
+        assert url != '', "La URL está vacía"
+        assert url.startswith(('http', 'https')), "La URL no es válida"
         self.driver.get(url)
         self.driver.maximize_window()
         self.driver.implicitly_wait(10)
 
-    def selector_xpath(self, path):
-        try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.XPATH, path)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_xpath(path)
-            return val
-        except TimeoutException as ex:
-            print(ex.msg)
-            print(f"No se encontro el xpath : {path}")
+    '''
+         Selectores (Xpath, css,class_name, Id, tag_name, name)
+         funciones que se les pasa el selector y los validan para luego usarlos en otras funciones 
+    '''
 
+    # function para usar xpath
+    def selector_xpath(self, path):
+        assert path != '', "El XPATH está vacío"
+        val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.XPATH, path)))
+        val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
+        val = self.driver.find_element_by_xpath(path)
+        return val
+
+    # function para usar ID
     def selector_id(self, id):
+        assert id != '', " El ID está vacío"
         val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.ID, id)))
         val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
         val = self.driver.find_element_by_id(id)
         return val
 
+    # function para selector css
     def selector_css(self, css):
-        try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.CSS_SELECTOR, css)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_css_selector(css)
-            if val is None:
-                raise AssertionError(f"No se encontró el selector : {css}")
-            return val
-        except TimeoutException as ex:
-            print(ex.msg)
-            print(f"No se encontró el Css selector  : {css}")
+        assert css != '', "El selector Css está vacío"
+        val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.CSS_SELECTOR, css)))
+        val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
+        val = self.driver.find_element_by_css_selector(css)
+        return val
+
+    # function para selector Name
+    def selector_name(self, name):
+        assert name != '', "El NAME está vacío"
+        val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.NAME, name)))
+        val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
+        val = self.driver.find_element_by_name(name)
+        return val
+
+    # function para selector por class_name
+    def selector_class_name(self, clase):
+        assert clase != '', "La Clase esta vacia"
+        val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.CLASS_NAME, clase)))
+        val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
+        val = self.driver.find_element_by_class_name(clase)
+        return val
+
+    #   function para selector por tag_name
+    def selector_tag_name(self, tag):
+        assert tag != '', "La El Tag_name esta vació"
+        val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.TAG_NAME, tag)))
+        val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
+        val = self.driver.find_element_by_class_name(tag)
+        return val
+
+    #   function para selector por tag_name
+    def selector_link_text(self, link):
+        assert link != '', "La El Link_text esta vació"
+        val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.LINK_TEXT, link)))
+        val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
+        val = self.driver.find_element_by_link_text(link)
+        return val
+
+    '''
+        Funciones que despues de usar un selector hacen click o rellenan campos
+    '''
 
     # toma un elemento desde el xpath para darle clic
     def get_path_click(self, path, t):
@@ -97,9 +136,9 @@ class FuncionesGlobales:
     # toma el elemento desde el name="Nombre" para darle clic
     def get_by_name_click(self, name, t):
         try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.NAME, name)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_name(name)
+            val = self.selector_name(name)
+            if val is None:
+                raise AssertionError(f"No se encontró el NAME  : {name}")
             val.click()
             return time.sleep(t)
         except TimeoutException as ex:
@@ -109,9 +148,9 @@ class FuncionesGlobales:
     # toma el elemento desde el name = "nombre" para enviar un texto
     def get_by_name_sendkey(self, name, texto, t):
         try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.NAME, name)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_name(name)
+            val = self.selector_name(name)
+            if val is None:
+                raise AssertionError(f"No se encontró el NAME  : {name}")
             val.send_keys(texto)
             return time.sleep(t)
         except TimeoutException as ex:
@@ -121,9 +160,9 @@ class FuncionesGlobales:
     # toma el elemento desde la clase para darle clic
     def get_class_click(self, clase, t):
         try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.CLASS_NAME, clase)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_class_name(clase)
+            val = self.selector_class_name(clase)
+            if val is None:
+                raise AssertionError(f"No se encontró la clase  : {clase}")
             val.click()
             return time.sleep(t)
         except TimeoutException as ex:
@@ -133,10 +172,10 @@ class FuncionesGlobales:
     # toma el elemento desde la clase para enviar un texto
     def get_class_sendkey(self, clase, texto, t):
         try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.CLASS_NAME, clase)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_class_name(clase)
+            val = self.selector_class_name(clase)
             val.send_keys(texto)
+            if val is None:
+                raise AssertionError(f"No se encontró la Clase  : {clase}")
             return time.sleep(t)
         except TimeoutException as ex:
             print(ex.msg)
@@ -145,9 +184,9 @@ class FuncionesGlobales:
     # tomamos el elemento desde su selector CSS para darle clic
     def get_css_selector_click(self, css, t):
         try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.CSS_SELECTOR, css)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_css_selector(css)
+            val = self.selector_css(css)
+            if val is None:
+                raise AssertionError(f"No se encontró el selector Css  : {css}")
             val.click()
             return time.sleep(t)
         except TimeoutException as ex:
@@ -157,9 +196,9 @@ class FuncionesGlobales:
     # Usamos  el selector CSS para rellenar un input o text area
     def get_css_selector_senkey(self, css, texto, t):
         try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.CSS_SELECTOR, css)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_css_selector(css)
+            val = self.selector_css(css)
+            if val is None:
+                raise AssertionError(f"No se encontró el selector Css  : {css}")
             val.send_keys(texto)
             return time.sleep(t)
         except TimeoutException as ex:
@@ -169,9 +208,9 @@ class FuncionesGlobales:
     # tomamos el elemento desde el nombre de etiqueta para darle clic
     def get_by_tag_name_click(self, tag, t):
         try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.TAG_NAME, tag)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_tag_name(tag)
+            val = self.selector_tag_name(tag)
+            if val is None:
+                raise AssertionError(f"No se encontró el Tag_name  : {tag}")
             val.click()
             return time.sleep(t)
         except TimeoutException as ex:
@@ -181,9 +220,9 @@ class FuncionesGlobales:
     # tomamos el elemento desde su nombre de etiqueta rellena el input
     def get_by_tag_name_senkey(self, tag, texto, t):
         try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.TAG_NAME, tag)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_tag_name(tag)
+            val = self.selector_tag_name(tag)
+            if val is None:
+                raise AssertionError(f"No se encontró el Tag_name  : {tag}")
             val.send_keys(texto)
             return time.sleep(t)
         except TimeoutException as ex:
@@ -193,9 +232,7 @@ class FuncionesGlobales:
     # función para darle clic a un enlace buscando desde su link de texto
     def get_by_link_text_click(self, link, t):
         try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.LINK_TEXT, link)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_link_text(link)
+            val = self.selector_link_text(link)
             val.click()
             return time.sleep(t)
         except TimeoutException as ex:
@@ -205,9 +242,7 @@ class FuncionesGlobales:
     # toma la referencia desde un link de texto para enviar datos
     def get_by_link_text_sendkey(self, link, texto, t):
         try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.LINK_TEXT, link)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_link_text(link)
+            val = self.selector_link_text(link)
             val.send_keys(texto)
             return time.sleep(t)
         except TimeoutException as ex:
@@ -224,7 +259,7 @@ class FuncionesGlobales:
         alert = Alert(self.driver)
         alert.dismiss()
 
-    # se usa con los select con xpath
+    # select por path para escojer por index, text o value
     def select_xpath_type(self, path, tipo, dato, t):
         try:
             val = self.selector_xpath(path)
@@ -245,9 +280,7 @@ class FuncionesGlobales:
     # se usa para los select con Id
     def select_id_type(self, id, tipo, dato, t):
         try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.ID, id)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_id(id)
+            val = self.selector_id(id)
             if val is None:
                 raise AssertionError(f"No se encontró el Id : {id}")
             selected = Select(val)
@@ -266,9 +299,7 @@ class FuncionesGlobales:
     # se usa para los select con selector css
     def select_css_type(self, css, tipo, dato, t):
         try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.CSS_SELECTOR, css)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_css_selector(css)
+            val = self.selector_css(css)
             if val is None:
                 raise AssertionError(f"No se encontró el Selector : {css}")
             selected = Select(val)
@@ -298,9 +329,7 @@ class FuncionesGlobales:
     # subir un archivo desde él, id, se le pasa la ruta
     def upload_file_id(self, id, ruta, t):
         try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.ID, id)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_id(id)
+            val = self.selector_id(id)
             if val is None:
                 raise AssertionError(f"No se encontró el Id del archivo: {id}")
             val.send_keys(ruta)
@@ -312,9 +341,7 @@ class FuncionesGlobales:
     # seleccionar un checkbox o radio por id
     def checkbox_radio_id(self, id, t):
         try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.ID, id)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_id(id)
+            val = self.selector_id(id)
             if val is None:
                 raise AssertionError(f"No se encontró el Id del checkbox o radio: {id}")
             val.click()
@@ -323,7 +350,7 @@ class FuncionesGlobales:
             print(ex.msg)
             print(f"No se encontró el Id del checkbox o radio : {id}")
 
-    # seleccionar un checkbox o radio desde un xpath
+    # seleccionar un checkbox o radio desde  xpath
     def checkbox_radio_xpath(self, path, t):
         try:
             val = self.selector_xpath(path)
@@ -354,9 +381,7 @@ class FuncionesGlobales:
     # muestra el texto por ID
     def get_text_id(self, id, t):
         try:
-            val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.ID, id)))
-            val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
-            val = self.driver.find_element_by_id(id)
+            val = self.selector_id()
             if val is None:
                 raise AssertionError(f"No se encontró el id : {id}")
             print(f"El texto es: {val.text}")
@@ -370,6 +395,7 @@ class FuncionesGlobales:
         mediante el for los mostramos por ID
     '''
 
+    # Seleccionar elementos por selector css
     def get_text_css_elements(self, selector, t):
         try:
             val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.CSS_SELECTOR, selector)))
@@ -386,6 +412,7 @@ class FuncionesGlobales:
 
     def login_simple(self, login_path, path_user, path_pswd, user, pswd, t):
         try:
+            # boton login
             val = self.selector_xpath(login_path)
             usuario = self.driver.find_element_by_xpath(path_user)
             password = self.driver.find_element_by_xpath(path_pswd)

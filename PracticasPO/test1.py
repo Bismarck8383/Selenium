@@ -4,7 +4,7 @@ import unittest
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 
-from PracticasPO.funciones.selenium_funciones import FuncionesGlobales
+from Practic.asPOfunciones.selenium_funciones import FuncionesGlobales
 
 
 class base_test(unittest.TestCase):

@@ -36,7 +36,7 @@ class FuncionesGlobales:
     # function para usar ID
     def selector_id(self, id):
         assert id != '', " El ID está vacío"
-        val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.ID, id)))
+        val = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By, id)))
         val = self.driver.execute_script("arguments[0].scrollIntoView();", val)
         val = self.driver.find_element_by_id(id)
         return val

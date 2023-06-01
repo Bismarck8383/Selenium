@@ -20,7 +20,7 @@ def drag_drop():
 
     # crear una instancia de ActionChains
     acciones = ActionChains(driver=driver)
-
+    ac = driver.find_element_by_id()
     # realizar la acción de arrastrar y soltar
     # acciones.drag_and_drop(elemento_mover, zona_soltar)
     acciones.click_and_hold(elemento_mover)

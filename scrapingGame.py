@@ -35,3 +35,4 @@ for pre in precios:
 src = soup.find_all("img", class_="img-responsive")
 for srcs in src:
     print("Los src : {}".format(srcs["src"]))
+

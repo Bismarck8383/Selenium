@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  surrealdb:
+    container_name: mysurrealdb
+    image: surrealdb/surrealdb:latest
+    ports:
+      - "8003:8000"
+    volumes:
+      - C:/Users/bismarck.colombo/surrealdb-data:/mydata
+    command: start --log trace --user root --pass root file:/mydata/bismarck.db

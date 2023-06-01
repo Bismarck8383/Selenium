@@ -1,0 +1,260 @@
+Instalamos un contenedor de ubuntu y su imagen
+# wsl --install -d Ubuntu
+muestra una lista de distribuciones de Linux instaladas en WSL.
+# wsl --list
+establece la version predeterminada de WSL para una distribucion de Linux.
+# wsl --set-version
+detiene todas las distribuciones de Linux en ejecucion en WSL.
+# wsl --shutdown
+elimina una distribucion de Linux de WSL.
+# wsl --unregister
+ exporta una distribucion de Linux como un archivo de imagen de tar.
+# wsl --export
+importa un archivo de imagen de tar como una nueva distribucion de Linux en WSL.
+# wsl --import
+establece el usuario predeterminado para una distribucion de Linux.
+# wsl --user
+ejecuta un comando en una distribucion de Linux.
+# wsl --exec
+#wsl.exe -d Ubuntu
+
+
+#########################################################################
+
+crea y ejecuta un contenedor
+# docker run
+inicia un contenedor existente.
+# docker start
+detiene un contenedor existente.
+# docker stop
+detiene y vuelve a iniciar un contenedor existente.
+# docker restart
+elimina un contenedor existente.
+# docker rm
+muestra una lista de contenedores en ejecucion.
+# docker ps
+muestra una lista de todos los contenedores (en ejecucion o detenidos).
+# docker ps -a
+muestra una lista de imagenes de Docker descargadas en el sistema.
+# docker images
+elimina una imagen de Docker existente.
+# docker rmi
+crea una imagen de Docker a partir de un archivo Dockerfile.
+# docker build
+sube una imagen de Docker al registro de Docker
+# docker push:
+Ver imagenes instaladas
+#docker images
+
+Crear un contenedor  con nombre desde poweshell
+#docker run  --name myubuntu2 ubuntu
+levanta el contenedor y entra en modo interactivo
+#docker start myubuntu2
+#docker start -i myubuntu
+#docker exec -it myubuntu2 bash
+crear un contenedor Apache que se ejecuta en background
+y de manera que puedo acceder de manera interactiva
+#docker run --name apache -d -it httpd:alpine
+entrar de manera interactiva a un contenedor con attach
+#docker attach fedora2
+
+lanzar comando dentro de los contenedores
+#docker exec apache uname -a
+#docker exec apache uname ls -l
+
+ver si un contenedor esta consumiendo muchos recursos
+#docker top fedora2
+
+ver en tiempo  real el uso de recursos de contenedor
+#docker stats fedora2
+
+ver la informacion completa de un contenedor
+#docker inspect fedora2
+
+comando para ver la informacion des systema con respecto a docker
+#docker system info
+#docker system df
+
+comando que se usa como consolelog para ver los eventos
+#docker system events
+
+crear container con variable y al pararlo que se autoelimine
+#docker run -it -d --rm --name=ubuntu3 -e V1=10 -e V2="Bis Colombo" ubuntu:latest
+
+levantar una imagen con variable en maria db
+#docker run --detach --name mariadb
+# --env MARIADB_USER=bismarck --env MARIADB_PASSWORD=bosonit123
+# --env MARIADB_ROOT_PASSWORD=bosonit  mariadb:latest
+
+levantar container en mysql con un archivo de config que tenga variables
+de configuracion  el archivo podria ser  variables.properties
+mi archivo es
+#MYSQL_ROOT_PASSWORD = bosonit
+#MYSQL_USER = USUARIO1
+#MYSQL_ROOT_PASSWORD = bosonit
+#MYSQL_DATABASE = usuarios
+levanto mi contenedor en maria db
+#docker run --name mysql01 -d --env-file variables.properties mysql:latest
+#docker run --name maridb1 -e MARIADB_ROOT_PASSWORD=admin123 -d mariadb:latest --port 3808
+mapeo un puerto en mi contenedor
+#docker run -d --name mariadb -p 3307:3306 -e MARIADB_ROOT_PASSWORD=bosonit mariadb
+
+como ver una pagina web en mi servidor apache2 levantado
+#docker run --name apache2 -d -p 9003:80 httpd:alpine
+#un vez corriendo mi servidor apache en localhost:9003 cipiamos nuestra web a htdocs
+no situamos dondetenemos los archivo web y le damos el siguiente comando
+#docker cp . apache2:/usr/local/apache2/htdocs
+#docker exec -it apache2 sh
+#cd htdocks
+#ls (index.html, style.css, images, js)
+
+como verificar la ip de mi contenedor en Windows y en linux
+#docker inspect mariadb | Select-String "IPAddress"
+#docker inspect mariadb | grep IPAD
+
+
+###################################
+docker-composer.yml
+##################################
+este crea un contenedor de mariadb
+
+version: "3.8"
+
+services:
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin123
+      - MYSQL_DATABASE=biblioteca
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=admin123
+
+##########################################
+crea un contenedor de postgres con pgdamin4
+
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=postgres
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    ports:
+      - "80:80/tcp"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    depends_on:
+      - postgres
+
+########################################
+crear contenedor maria db con su php myadmin
+
+version: "3.8"
+services:
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin123
+      - MYSQL_DATABASE=biblioteca
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=admin123
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - "90:80/tcp"
+    environment:
+      - PMA_HOST=mariadb
+      - PMA_USER=root
+      - PMA_PASSWORD=admin123
+
+########################################
+levantar mi contenedor ubuntu-apache
+version: "3.8"
+
+
+services:
+  ubuntu-apache:
+    image: ubuntu/apache2
+    container_name: ubuntu-apache
+    restart: always
+    ports:
+      - "8005:80
+
+
+
+###################################
+levantar docker sonarcube
+
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: mypostgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=sonarqube
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: mypgadmin
+    restart: always
+    ports:
+      - "80:80/tcp"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    depends_on:
+      - postgres
+
+  sonarqube:
+    image: sonarqube:latest
+    container_name: mysonarqube
+    restart: always
+    ports:
+      - "9000:9000"
+    environment:
+      - SONARQUBE_JDBC_USERNAME=root
+      - SONARQUBE_JDBC_PASSWORD=admin
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://mypostgres:5432/sonarqube
+    depends_on:
+      - postgres
+
+
+Una vez iniciado el sonarcube en esta ip http://192.168.10.47:9000/
+#########################################
+una vez dentro en la bash asi puedo intslar mas cosas
+#apt-get update && apt-get install -y apt-utils
+#apt-get update && apt-get install -y net-tools
+#apt-get install nano
+
+quiero instalar sonarcube desde un stacks en portainer creando un yml toma en cuenta que antes cre un
+postgres con yml, ahora quiero que el contenedor de sonarcube se conecte al ya contenedor de
+ postgres y pgadmin creado y ahi cree la base de datos de analisis de datos
+
+

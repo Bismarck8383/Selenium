@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  ubuntu-apache:
+    image: ubuntu/apache2
+    container_name: ubuntu-apache
+    restart: always
+    user: root
+    ports:
+      - "8005:80"

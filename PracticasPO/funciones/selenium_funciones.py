@@ -138,7 +138,7 @@ class FuncionesGlobales:
     def get_class_click(self, clase, t):
         assert t >= 0, "El tiempo de espera no puede ser negativo"
         try:
-            val = self.selector_class(clase)
+            val = self.selector_class_name(clase)
             val.click()
             time.sleep(t)
         except AssertionError as ae:
@@ -151,7 +151,7 @@ class FuncionesGlobales:
     def get_class_sendkey(self, clase, texto, t):
         assert t >= 0, "El tiempo de espera no puede ser negativo"
         try:
-            val = self.selector_class(clase)
+            val = self.selector_class_name(clase)
             val.send_keys(texto)
             time.sleep(t)
         except AssertionError as ae:

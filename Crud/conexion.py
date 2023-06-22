@@ -11,9 +11,9 @@ class ConexionDB:
     # Datos de connexion:
     config = {
         'user': 'root',
-        'password': '',
-        'host': 'localhost',
-        'port': '3306',
+        'password': 'admin123',
+        'host': '192.168.10.47',
+        'port': '3307',
         'database': 'crud'
     }
 
@@ -67,26 +67,3 @@ class ConexionDB:
         finally:
             cursor.close()
 
-
-# conexion = ConexionDB()
-# conexion.conectar()
-
-# ... aquí puedes realizar operaciones en la base de datos ...
-"""
-consulta = 'SELECT * FROM cliente ORDER BY id ASC'
-
-result = conexion.ejecutar_consulta(consulta)
-
-for fila in result:
-    print('Clientes registrados:')
-    for fila in result:
-        print(f'ID: {fila[0]}')
-        print(f'Nombre: {fila[1]}')
-        print(f'Apellido: {fila[2]}')
-        print(f'Edad: {fila[3]}')
-        print(f'Email: {fila[4]}')
-        print(f'Fecha de Nacimiento: {fila[5]}')
-        print(f'Ciudad: {fila[6]}')
-        print('--------------------------')
-"""
-# conexion.desconectar()

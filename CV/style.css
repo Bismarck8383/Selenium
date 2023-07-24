@@ -1,0 +1,109 @@
+/* Resetear los estilos predeterminados */
+*{
+  margin: 0; 
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilos generales */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 10px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+h1 {
+  font-size: 28px;
+  margin: 0;
+  text-align: center;
+  color: #333;
+  background-color: red;
+}
+
+h2 {
+  font-size: 24px;
+  margin: 20px 0 10px;
+  color: #555;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+strong {
+  font-weight: bold;
+}
+
+.section-divider {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.job-title {
+  font-size: 20px;
+  margin: 0;
+  color: #333;
+}
+
+.job-details {
+  margin-top: 5px;
+  color: #555;
+}
+
+.job-description {
+  margin-top: 10px;
+}
+
+footer {
+  font-size: 14px;
+  margin-top: 30px;
+  text-align: center;
+  color: #888;
+}
+
+/* Estilos para resaltar el código */
+code {
+  background-color: #f2f2f2;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: Consolas, monospace;
+}
+
+pre {
+  background-color: #f2f2f2;
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-family: Consolas, monospace;
+}
+
+.keyword {
+  color: #008080;
+}
+
+.comment {
+  color: #888;
+  font-style: italic;
+}
+
+.string {
+  color: #b62;
+}
+
+.number {
+  color: #905;
+}
+
+.operator {
+  color: #a67f59;
+}
+
+/* Otros estilos personalizados que desees añadir */

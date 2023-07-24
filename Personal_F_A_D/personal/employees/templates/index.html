@@ -1,0 +1,70 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Employees</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'employees/css/styles.css'%}">
+
+</head>
+<body>
+  <div class="container-principal">
+      <h1>Lista de Empleados <a href="http://127.0.0.1:8000/employees/create_employee_page/">
+    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512" fill="white">
+        <path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248H440c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V136c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H552v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
+    </svg>
+</a>
+</h1>
+        <div class="card-contenedor">
+             {% for employee in employees %}
+            <div class="card tarjetas" style="width: 14rem; margin:5px" id="{{employee.id}}">
+              <div class="card-body">
+                 <h5 class="card-title">{{ employee.name }}</h5>
+                 <h6 class="card-subtitle mb-2 text-muted">{{ employee.cargo }}</h6>
+                 <p class="card-text"><b>Edad: </b>{{ employee.edad }}</p>
+                 <p class="card-text"><b>Telf: </b>{{ employee.telefono }}</p>
+                 <p class="card-text"><b>Ciudad: </b>{{ employee.ciudad }}</p>
+                 <p class="card-text"><b>Genero: </b>{{ employee.genero }}</p>
+             </div>
+           </div>
+             {% endfor %}
+            
+        </div>
+
+<!-- Modal -->
+<div class="modal fade" id="subsidyModal" tabindex="-1" role="dialog" aria-labelledby="subsidyModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title center-text" id="subsidyModalLabel">Details Employee</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Aquí se mostrarán los detalles del empleado -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger">Eliminar</button>
+        <button type="button" class="btn btn-primary" id="editUserButton" data-dismiss="modal" >Editar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script type="text/javascript" src="{% static 'employees/js/main.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

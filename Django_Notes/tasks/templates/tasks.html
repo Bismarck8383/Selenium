@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container principal">
+	<h1 class="my-12">Tasks List</h1>
+	<div class="card-contenedor">
+		{% for task in tasks %}
+			<div class="card tarjetas" style="width: 14rem; margin:5px" id="{{task.id}}">
+				<div class="card-body">
+					<h5 class="card-title"><a href="{% url 'task_id' task.id %}" class="text-dark text-decoration-none">{{ task.title }}</a></h5>
+					<h6 class="card-subtitle mb-2 text-muted">User: {{ task.user.username }}</h6>
+					<p class="card-text"><b>Description: </b>{{ task.description }} </p>
+					<p class="card-text"><b>Created: </b>{{ task.created }} </p>
+					<p class="card-text"><b>Important: </b>
+						{% if task.important %}
+						Yes
+						{% else %}
+						No
+						{% endif %}
+					</p>
+					<p class="card-text"><b>Completada: </b>
+						{% if task.datecomplete %}
+						{{ task.datecomplete }}
+						{% else %}
+						In process
+						{% endif %}
+					</p>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock%}
+
+
+

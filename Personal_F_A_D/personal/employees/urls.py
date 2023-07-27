@@ -10,5 +10,5 @@ urlpatterns = [
     path('id/<int:employee_id>', views.get_employee_by_id, name='by_id'),
     path('delete/<int:employee_id>', views.delete_employee_id, name='delete_id'),
     path('update/<int:employee_id>', views.update_employee, name='update_employee'),
-
+    path('boot/', views.bootstrap_prueba, name='bootstrap_prueba')
 ]

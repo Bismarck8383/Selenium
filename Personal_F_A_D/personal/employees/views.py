@@ -1,5 +1,5 @@
 import json
-from django.http import HttpResponse
+
 import requests
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -143,3 +143,7 @@ def update_employee(request, employee_id):
     except Exception as e:
         import traceback
         return JsonResponse({"error": f"Error desconocido: {str(e)}. Traceback: {traceback.format_exc()}"}, status=500)
+
+
+def bootstrap_prueba(request):
+    return render(request, "bootstrap.html")

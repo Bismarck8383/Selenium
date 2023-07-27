@@ -1,0 +1,17 @@
+body {
+            margin: 0;
+            padding: 0;
+             /* Color de fondo de la página */
+        }
+h1.my-12{
+    text-align:center;
+    width: 100%;
+}
+.principal{
+    display: flex;
+    flex-wrap: wrap;
+}
+.card-contenedor{
+    display: flex;
+    flex-wrap: wrap;
+}

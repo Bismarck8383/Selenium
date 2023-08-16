@@ -40,26 +40,32 @@ def mostrar_clientes():
 def crear_cliente():
     # Pedir datos del cliente
     print("### Rellene todos los datos del cliente ###")
-    nombre = input('Ingrese el nombre del cliente: ')
-    while not nombre.isalpha():
-        print('Error: el nombre solo puede contener letras')
-        nombre = input('Ingrese el nombre del cliente: ')
 
-    apellido = input('Ingrese el apellido del cliente: ')
-    while not apellido.isalpha():
-        print('Error: el apellido solo puede contener letras')
-        apellido = input('Ingrese el apellido del cliente: ')
-
-    edad = input('Ingrese la edad del cliente: ')
-    while not edad.isnumeric() or int(edad) < 0 or int(edad) > 115:
-        print('Error: la edad solo puede contener números enteros positivos y no mayor a 115 años')
-        edad = input('Ingrese la edad del cliente: ')
-
-    email = input('Ingrese el email del cliente: ')
     while True:
+        nombre = input('Ingrese el nombre del cliente: ')
+        if nombre.isalpha():
+            break
+        else:
+            print('Error: el nombre solo puede contener letras')
+
+    while True:
+        apellido = input('Ingrese el apellido del cliente: ')
+        if apellido.isalpha():
+            break
+        else:
+            print('Error: el apellido solo puede contener letras')
+
+    while True:
+        edad = input('Ingrese la edad del cliente: ')
+        if edad.isnumeric() and 0 <= int(edad) <= 115:
+            break
+        else:
+            print('Error: la edad solo puede contener números enteros positivos y no mayor a 115 años')
+
+    while True:
+        email = input('Ingrese el email del cliente: ')
         if not email:
             print('Error: el email no puede estar vacío')
-            email = input('Ingrese el email del cliente: ')
         else:
             conexion = ConexionDB()
             conexion.conectar()
@@ -68,31 +74,31 @@ def crear_cliente():
             conexion.desconectar()
             if len(resultado) > 0:
                 print('Error: el email ya está registrado')
-                email = input('Ingrese el email del cliente: ')
             else:
                 break
 
     while True:
         fecha_reg = input('Ingrese la fecha de registro del cliente (formato AAAA-MM-DD): ')
         try:
-            fecha_reg = datetime.strptime(fecha_reg, '%Y-%m-%d')
-
+            fecha_registro = datetime.strptime(fecha_reg, '%Y-%m-%d')
             break
         except ValueError:
             print('Error: formato de fecha inválido. Intente de nuevo.')
 
-    ciudad = input('Ingrese la ciudad del cliente: ')
-    while not ciudad.isalpha():
-        print('Error: la ciudad solo puede contener letras')
+    while True:
         ciudad = input('Ingrese la ciudad del cliente: ')
+        if ciudad.isalpha():
+            break
+        else:
+            print('Error: la ciudad solo puede contener letras')
 
     # Conectar a la base de datos
     conexion = ConexionDB()
     conexion.conectar()
 
     # Insertar nuevo cliente
-    consulta = f"INSERT INTO cliente(nombre, apellido, edad, email, fecha_reg, ciudad) " \
-               f"VALUES('{nombre}', '{apellido}', {edad}, '{email}', '{fecha_reg}', '{ciudad}')"
+    consulta = f"INSERT INTO cliente (Nombre, Apellido, Edad, Email, Fecha_registro, Ciudad) " \
+               f"VALUES ('{nombre}', '{apellido}', {edad}, '{email}', '{fecha_registro}', '{ciudad}')"
     conexion.ejecutar_consulta(consulta)
 
     print('Cliente registrado exitosamente!')

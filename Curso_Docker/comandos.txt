@@ -255,6 +255,6 @@ una vez dentro en la bash asi puedo intslar mas cosas
 
 quiero instalar sonarcube desde un stacks en portainer creando un yml toma en cuenta que antes cre un
 postgres con yml, ahora quiero que el contenedor de sonarcube se conecte al ya contenedor de
- postgres y pgadmin creado y ahi cree la base de datos de analisis de datos
+postgres y pgadmin creado y ahi cree la base de datos de analisis de datos
 
 

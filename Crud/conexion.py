@@ -5,14 +5,14 @@ En este archivo haremos la coneccion con la base de datos Crud
 import mysql.connector
 from mysql.connector import Error
 from prettytable import PrettyTable
-
+from datetime import datetime
 
 class ConexionDB:
     # Datos de connexion:
     config = {
         'user': 'root',
         'password': 'admin123',
-        'host': '192.168.10.47',
+        'host': '217.76.155.98',
         'port': '3307',
         'database': 'crud'
     }
@@ -67,3 +67,17 @@ class ConexionDB:
         finally:
             cursor.close()
 
+    def insertar_cliente(self, nombre, apellido, edad, email, fecha_registro, ciudad):
+        cursor = self.conexion.cursor()
+        try:
+            fecha_registro = datetime.strptime(fecha_registro, '%Y-%m-%d')
+            consulta = f"INSERT INTO cliente (Nombre, Apellido, Edad, Email, Fecha_registro, Ciudad) " \
+                       f"VALUES ('{nombre}', '{apellido}', {edad}, '{email}', '{fecha_registro}', '{ciudad}')"
+            cursor.execute(consulta)
+            self.conexion.commit()
+            print("Cliente registrado exitosamente.")
+        except Exception as e:
+            self.conexion.rollback()
+            print("Error al registrar el cliente:", e)
+        finally:
+            cursor.close()

@@ -9,13 +9,14 @@ import datetime
 from django.utils import timezone
 #vamos a protejer nuestras rutas
 from django.contrib.auth.decorators import login_required
-
+from django.views import View
 
 # Create your views here.
 
 def home(request):
 
     return render(request, 'home.html')
+
 
 
 def signup(request):
@@ -163,3 +164,27 @@ def delete_task(request, task_id):
         return redirect('tasks')
     else:
         return render(request, 'task_detail.html', {'task': task})
+
+class SaludoViews(View):
+    def get(self, request):
+        return HttpResponse("<h1>Saludando a todas las personas de este site</h1>")
+
+
+class Nuevo(View):
+    def get(self, request):
+        return HttpResponse("<h1>Nuevo saludos probando las clases</h1>")
+
+
+class UltimasTareasView(View):
+    def get(self, request):
+        # Obtener las últimas tres tareas ordenadas por fecha de creación
+        latest_tasks = Task.objects.order_by("-created")[:3]
+
+        # Construir la respuesta HTML
+        response_html = "<h1>Últimas tres tareas:</h1>"
+        for task in latest_tasks:
+            response_html += f"""
+                <p>{task.title} - {task.created} - {task.description}</p> 
+            """
+
+        return HttpResponse(response_html)

@@ -49,3 +49,30 @@ networks:
     driver: bridge
     ipam:
       driver: default
+##############################
+version: "3.8"
+
+services:
+  mypostgres:        # Nombre personalizado para el servicio postgres
+    image: postgres:latest
+    restart: always
+    container_name: mypostgres     # Nombre personalizado para el contenedor
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=postgres
+
+  mypgadmin:        # Nombre personalizado para el servicio pgadmin
+    image: dpage/pgadmin4:latest
+    restart: always
+    container_name: mypgadmin     # Nombre personalizado para el contenedor
+    ports:
+      - "8006:80/tcp"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    depends_on:
+      - mypostgres     # Usamos el nombre personalizado del servicio postgres
+
